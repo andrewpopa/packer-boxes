@@ -1,5 +1,4 @@
 #!/bin/bash
-export DEBIAN_FRONTEND="noninteractive"
 
 # Add no-password sudo config for vagrant user
 echo "%vagrant ALL=NOPASSWD:ALL" > /etc/sudoers.d/vagrant

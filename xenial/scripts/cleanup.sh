@@ -1,5 +1,3 @@
-export DEBIAN_FRONTEND="noninteractive"
-
 apt-get autoremove -y
 apt-get clean
 
