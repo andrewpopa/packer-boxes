@@ -1,0 +1,60 @@
+# Ubuntu Xenial64
+
+## Pre-requirements 
+- [packer](https://www.packer.io/)
+- [vagrant](https://www.vagrantup.com/)
+- [kitchent-test](https://kitchen.ci/)
+- [virtualbox](https://www.virtualbox.org/)
+
+## How to use it
+```bash
+git clone git@github.com:andrewpopa/packer-boxes.git
+cd packer-boxes/xenial
+```
+validate the packer template
+```bash
+packer validate template.pkr.hcl
+```
+
+build packer box
+```bash
+packer build template.pkr.hcl
+```
+
+add the box to vagrant
+```bash
+vagrant box add --name xenial64 --provider virtualbox xenial64.box 
+```
+
+## Testing
+
+configure ruby enviroment 
+
+```ruby
+rbenv install 2.3.1
+rbenv local 2.3.1
+rbenv versions
+gem install bundler
+bundle install
+```
+
+run the tests
+```bash
+bundle exec kitchen converge
+bundle exec kitchen verify
+bundle exec kitchen destroy
+```
+
+### Test results
+
+once tests were executed successfully you'll get similar output
+```bash
+# ...
+  ✔  operating_system: Command: `lsb_release -a`
+     ✔  Command: `lsb_release -a` stdout is expected to match /Ubuntu/
+
+
+Profile Summary: 1 successful control, 0 control failures, 0 controls skipped
+Test Summary: 1 successful, 0 failures, 0 skipped
+# ...
+```
