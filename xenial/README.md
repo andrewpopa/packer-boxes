@@ -58,3 +58,11 @@ Profile Summary: 1 successful control, 0 control failures, 0 controls skipped
 Test Summary: 1 successful, 0 failures, 0 skipped
 # ...
 ```
+
+#### Publish to Vagrant Cloud
+
+assuming that you are loggedin, you can publish the box to consume it from VagrandtCloud for local use.
+
+```bash
+vagrant cloud publish apopa/xenial64 1.0.0 virtualbox xenial64.box -d "Xenial64 minimal" --version-description "Xenial64 minimal" --release --short-description "Xenial64 minimal"
+```
