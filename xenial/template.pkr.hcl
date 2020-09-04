@@ -68,6 +68,12 @@ variable "vm_name" {
   default = "xenial64"
 }
 
+# AWS
+variable "region" {
+  type    = string
+  default = "eu-central-1"
+}
+
 source "virtualbox-iso" "step_1" {
   boot_command = [
     "<enter><f6><esc><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs>",
@@ -98,8 +104,21 @@ source "virtualbox-iso" "step_1" {
   vboxmanage           = [[ "modifyvm", "${var.vm_name}-vbox","--memory","${var.memory}"],["modifyvm", "${var.vm_name}-vbox", "--cpus","${var.cpus}"]]
 }
 
+
+source "amazon-ebs" "step_2" {
+  region = var.region
+  source_ami = "ami-0668176b7d648cc1c"
+  ami_name =  "xenial64-min"
+  instance_type = "t2.micro"
+  ssh_username = "ubuntu"
+}
+
+
 build {
-  sources = ["source.virtualbox-iso.step_1"]
+  sources = [
+    "source.virtualbox-iso.step_1",
+    "source.amazon-ebs.step_2",
+  ]
   
   provisioner "shell" {
     environment_vars = [
