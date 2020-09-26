@@ -2,3 +2,6 @@ output-*/
 packer_cache/
 *.box
 stage-1-manifest.json
+.kitchen/
+.ruby-version
+*.lock
