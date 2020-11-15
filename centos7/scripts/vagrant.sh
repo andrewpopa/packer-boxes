@@ -5,7 +5,7 @@ echo "%vagrant ALL=NOPASSWD:ALL" > /etc/sudoers.d/vagrant
 chmod 0440 /etc/sudoers.d/vagrant
 
 # Add vagrant to sudo group
-usermod -a -G sudo vagrant
+usermod -a -G wheel vagrant
 
 # Install vagrant key
 mkdir /home/vagrant/.ssh
