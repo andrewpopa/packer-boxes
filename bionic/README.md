@@ -12,26 +12,31 @@
 git clone git@github.com:andrewpopa/packer-boxes.git
 cd packer-boxes/bionic
 ```
+
 validate the packer template
 ```bash
 packer validate .
 ```
 
-build packer box
+build packer boxes - it will build for virtualbox, vmware fusion, aws, azure, gcp
 ```bash
 packer build .
 ```
 
+add created virtualbox to vagrant list to run the tests
+```bash
+vagrant box add --name bionic64 --provider virtualbox bionic64_1.0.1.box
+```
+
 ## Testing
 
-configure ruby enviroment 
+configure ruby enviroment, I'm using rbenv - [installation](https://github.com/rbenv/rbenv#installation)
+
+
 
 ```ruby
-rbenv install 3.0.1
-
-
-rbenv install 2.3.1
-rbenv local 2.3.1
+rbenv install 2.7.3
+rbenv local 2.7.3
 rbenv versions
 gem install bundler
 bundle install
@@ -58,15 +63,32 @@ Test Summary: 1 successful, 0 failures, 0 skipped
 # ...
 ```
 
-#### Publish to Vagrant Cloud
+## Publish to Vagrant Cloud
 
-assuming that you are loggedin, you can publish the box to consume it from VagrandtCloud for local use.
+Logging yo Vagrant Cloud
+```bash
+vagrant cloud auth login
+```
 
+publish the images to vagrant cloud
+
+virtualbox
+```bash
+vagrant cloud publish apopa/bionic64 1.0.1 virtualbox bionic64_1.0.1.box -d "Bionic64 minimal" --version-description "Bionic64 minimal" --release --short-description "Bionic64 minimal" --force
+```
+
+vmware fusion
 ```bash
 vagrant cloud publish apopa/bionic64 1.0.1 vmware_desktop bionic64_1.0.1_vmware.box -d "Bionic64 minimal" --version-description "Bionic64 minimal" --release --short-description "Bionic64 minimal" --force
 ```
 
 ## AWS
+make sure are logged in to AWS - [doc](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-envvars.html)
+
+create just for aws environment 
+```bash
+packer build -only=amazon-ebs.aws .
+```
 
 ## Azure
 
@@ -108,10 +130,20 @@ az account show --query "{ subscription_id: id }"
 
 use the output of these commands as input for your packer templates
 
+create just for azure environment 
+```bash
+packer build -only=azure-arm.azure .
+```
+
 ## GCP
 
 get GCO source images list
 
 ```bash
 gcloud compute images list --project <project-id-name>
+```
+
+create just for gcp environment 
+```bash
+packer build -only=googlecompute.gcp .
 ```
