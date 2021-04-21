@@ -138,15 +138,16 @@ source "azure-arm" "azure" {
 
 // gcp
 source "googlecompute" "gcp" {
-  project_id        = var.project_id
-  image_name        = "${var.name}-${var.version}"
-  image_description = "${var.name}-${var.version}"
-  disk_size         = "50"
-  disk_type         = "pd-ssd"
-  machine_type      = "n1-standard-1"
-  source_image      = "ubuntu-1804-bionic-v20210325"
-  zone              = "europe-west4-a"
-  ssh_username      = "root"
+  project_id          = var.project_id
+  image_name          = "${var.name}"
+  image_description   = "${var.name}-${var.version}"
+  source_image_family = "${var.name}"
+  disk_size           = "50"
+  disk_type           = "pd-ssd"
+  machine_type        = "n1-standard-1"
+  source_image        = "ubuntu-1804-bionic-v20210325"
+  zone                = "europe-west4-a"
+  ssh_username        = "root"
 
   image_labels = {
     release     = "bionic"
